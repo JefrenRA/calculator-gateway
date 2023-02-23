@@ -1,0 +1,47 @@
+
+#Ignore thumbnails created by Windows
+Thumbs.db
+#Ignore files built by Visual Studio
+*.obj
+*.exe
+*.pdb
+*.user
+*.aps
+*.pch
+*.vspscc
+*_i.c
+*_p.c
+*.ncb
+*.suo
+*.tlb
+*.tlh
+*.bak
+*.cache
+*.ilk
+*.log
+[Bb]in
+[Dd]ebug*/
+*.lib
+*.sbr
+obj/
+[Rr]elease*/
+_ReSharper*/
+[Tt]est[Rr]esult*
+.vs/
+#Nuget packages folder
+packages/
+/.metadata/.lock
+/.metadata/.plugins/org.eclipse.core.resources/.root/.indexes/properties.index
+/.metadata/.plugins/org.eclipse.core.runtime/.settings/org.eclipse.egit.core.prefs
+/.metadata/.plugins/org.eclipse.core.runtime/.settings/org.eclipse.jdt.ui.prefs
+/.metadata/.plugins/org.eclipse.core.runtime/.settings/org.eclipse.jsch.core.prefs
+/.metadata/.plugins/org.eclipse.core.runtime/.settings/org.eclipse.ui.ide.prefs
+/.metadata/.plugins/org.eclipse.core.runtime/.settings/org.springframework.ide.eclipse.imports.prefs
+/.metadata/.plugins/org.eclipse.core.runtime/.settings/org.springsource.ide.eclipse.commons.ui.prefs
+/.metadata/.plugins/org.eclipse.e4.workbench/workbench.xmi
+/.metadata/.plugins/org.eclipse.jdt.core/index.db
+/.metadata/.plugins/org.eclipse.m2e.logback.configuration/logback.1.11.0.20190220-2119.xml
+/.metadata/.plugins/org.eclipse.tm.terminal.view.ui/.executables/data.properties
+/.metadata/.plugins/org.eclipse.ui.workbench/workingsets.xml
+/.metadata/version.ini
+/.metadata/
