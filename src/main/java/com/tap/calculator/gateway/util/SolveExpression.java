@@ -3,10 +3,7 @@ package com.tap.calculator.gateway.util;
 import com.tap.calculator.gateway.util.soap.OperationsXml;
 
 public class SolveExpression {
-	private static String[] val;
-	private static String method;
 	private String result;
-	private String resOperation;
 	
 	public String getResult() {
 		return result;
@@ -16,6 +13,9 @@ public class SolveExpression {
 	}
 	
 	public void solve(String expression) throws Exception {
+		String[] val= {};
+		String method="";
+		String resOperation="";
 		try {
 			if (!(expression.isEmpty())){
 				if(expression.contains("+")) {

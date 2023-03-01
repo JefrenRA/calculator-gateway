@@ -10,7 +10,7 @@ public class AddResponse {
   
 	public AddResponse() {}  
 	
-	public AddResponse(int intA,int intB, int AddResult) {  
+	public AddResponse(int AddResult) {  
 	    super();  
 
 	    this.AddResult = AddResult;
