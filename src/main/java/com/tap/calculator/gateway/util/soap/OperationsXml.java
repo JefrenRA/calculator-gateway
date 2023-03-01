@@ -1,7 +1,5 @@
 package com.tap.calculator.gateway.util.soap;
 
-import java.io.ByteArrayOutputStream;
-
 import javax.xml.soap.MessageFactory;
 import javax.xml.soap.MimeHeaders;
 import javax.xml.soap.SOAPBody;
@@ -12,16 +10,18 @@ import javax.xml.soap.SOAPEnvelope;
 import javax.xml.soap.SOAPException;
 import javax.xml.soap.SOAPMessage;
 import javax.xml.soap.SOAPPart;
+import com.tap.calculator.gateway.util.jaxb.operations.UnmarshallerAdd;
 
 
+@SuppressWarnings("restriction")
 public class OperationsXml {
-	private static getSOAPResponse result = new getSOAPResponse();
-	
+	//private static SOAPResponse result = new SOAPResponse();
+	private static UnmarshallerAdd uAdd = new UnmarshallerAdd();
+	private static XmlBuilder xmlBuild = new XmlBuilder();
 	private static String nameSpace = "Calculator";
     private static String nameSpaceURI = "http://tempuri.org/";
     private static String res ="";
 	
-	@SuppressWarnings("restriction")
 	public static String callSoapWebService(String soapEndpointUrl, String soapAction, String method, String[] val, String resOperation) {
         try {
             // Create SOAP Connection
@@ -30,13 +30,11 @@ public class OperationsXml {
 
             // Send SOAP Message to SOAP Server
             SOAPMessage soapResponse = soapConnection.call(createSOAPRequest(soapAction, method, val), soapEndpointUrl);
-
             
-         // get SOAP message response as string
-            ByteArrayOutputStream out = new ByteArrayOutputStream();
-            soapResponse.writeTo(out);
-            String response= out.toString();
-            res = result.gettingResult(response,resOperation);
+            xmlBuild.parseSoapMessageBody(soapResponse);
+            String response=xmlBuild.toXMLString();
+            uAdd.unmarshalAdd(response);
+            //res = result.gettingResult(response,resOperation);
             
             soapConnection.close();
             
@@ -46,13 +44,10 @@ public class OperationsXml {
 		return res;
     }
 	
-	@SuppressWarnings("restriction")
 	private static SOAPMessage createSOAPRequest(String soapAction, String method, String[] val) throws Exception {
         MessageFactory messageFactory = MessageFactory.newInstance();
         SOAPMessage soapMessage = messageFactory.createMessage();
         SOAPPart soapPart = soapMessage.getSOAPPart();
-
-        // SOAP Envelope
         SOAPEnvelope envelope = soapPart.getEnvelope();
         
         envelope.addNamespaceDeclaration(nameSpace, nameSpaceURI);
@@ -66,7 +61,6 @@ public class OperationsXml {
         return soapMessage;
     }
 	
-	@SuppressWarnings("restriction")
 	private static void createSoapOperateEnvelope(SOAPMessage soapMessage, SOAPEnvelope envelope, String method, String[] val) throws SOAPException {
        try {
     	   SOAPBody soapAddBody = envelope.getBody();

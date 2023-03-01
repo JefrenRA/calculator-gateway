@@ -12,7 +12,7 @@ import org.w3c.dom.Node;
 import org.w3c.dom.NodeList;
 import org.xml.sax.InputSource;
 
-public class getSOAPResponse {
+public class SOAPResponse {
 	
 	public String gettingResult(String response, String resOperation) throws Exception {
 		List<String> output = getResultFromXml(response, resOperation);
