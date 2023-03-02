@@ -13,25 +13,24 @@ public class SolveExpression {
 	}
 	
 	public void solve(String expression) throws Exception {
+		OperationsXml ops = new OperationsXml();
 		String[] val= {};
 		String method="";
-		String resOperation="";
+		
+		//Classifies the arithmetic operation used and store the given numbers to array
 		try {
 			if (!(expression.isEmpty())){
 				if(expression.contains("+")) {
 					val = expression.split("\\+");
 					method = "Add";
-					resOperation = "AddResult";
 				}
 				else if (expression.contains("*")) {
 					val = expression.split("\\*");
 					method ="Multiply";
-					resOperation = "MultiplyResult";
 				}
 				else if (expression.contains("/")) {
 					val = expression.split("\\/");
 					method ="Divide";
-					resOperation = "DivideResult";
 				}
 				else if (expression.contains("-")) {
 					if (expression.startsWith("-")) {
@@ -43,15 +42,15 @@ public class SolveExpression {
 						val = expression.split("\\-");
 					}
 					method ="Subtract";
-					resOperation = "SubtractResult";
 				}
 				else {
 					setResult(expression);
 				}
 				
+				//Calls the SOAP WebService to do the operation
 				String soapEndpointUrl = "http://www.dneonline.com/calculator.asmx";
 		        String soapAction = "http://tempuri.org/"+ method;
-				result = OperationsXml.callSoapWebService(soapEndpointUrl, soapAction, method, val, resOperation);
+				result = ops.callSoapWebService(soapEndpointUrl, soapAction, method, val);
 			}
 			else {
 				setResult(expression);

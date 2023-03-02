@@ -10,20 +10,17 @@ import javax.xml.soap.SOAPEnvelope;
 import javax.xml.soap.SOAPException;
 import javax.xml.soap.SOAPMessage;
 import javax.xml.soap.SOAPPart;
-import com.tap.calculator.gateway.util.jaxb.operations.UnmarshallerAdd;
-
+import com.tap.calculator.gateway.util.jaxb.operations.UnmarshallerOperation;
 
 @SuppressWarnings("restriction")
 public class OperationsXml {
-	//private static SOAPResponse result = new SOAPResponse();
-	private static UnmarshallerAdd uAdd = new UnmarshallerAdd();
-	private static XmlBuilder xmlBuild = new XmlBuilder();
-	private static String nameSpace = "Calculator";
-    private static String nameSpaceURI = "http://tempuri.org/";
-    private static String res ="";
+    private String res ="";
 	
-	public static String callSoapWebService(String soapEndpointUrl, String soapAction, String method, String[] val, String resOperation) {
+	public  String callSoapWebService(String soapEndpointUrl, String soapAction, String method, String[] val) {
         try {
+        	UnmarshallerOperation unmarshallOps = new UnmarshallerOperation();
+        	XmlBuilder xmlBuild = new XmlBuilder();
+        	
             // Create SOAP Connection
             SOAPConnectionFactory soapConnectionFactory = SOAPConnectionFactory.newInstance();
             SOAPConnection soapConnection = soapConnectionFactory.createConnection();
@@ -31,24 +28,40 @@ public class OperationsXml {
             // Send SOAP Message to SOAP Server
             SOAPMessage soapResponse = soapConnection.call(createSOAPRequest(soapAction, method, val), soapEndpointUrl);
             
+            //Converts xml response to string
             xmlBuild.parseSoapMessageBody(soapResponse);
             String response=xmlBuild.toXMLString();
-            uAdd.unmarshalAdd(response);
-            //res = result.gettingResult(response,resOperation);
+            
+            //Calls unmarshal method based on the particular arithmetic operation used
+            if(method.contentEquals("Add")) {
+            	res = unmarshallOps.unmarshalAdd(response);
+            }
+            else if(method.contentEquals("Subtract")) {
+            	res = unmarshallOps.unmarshalSub(response);
+            }
+            else if(method.contentEquals("Multiply")) {
+            	res = unmarshallOps.unmarshalMul(response);
+            }
+            else if(method.contentEquals("Divide")) {
+            	res = unmarshallOps.unmarshalDiv(response);
+            }
+            
             
             soapConnection.close();
             
-        } catch (Exception e) {
-            e.printStackTrace();
-        }
+        } catch (Exception e) {}
+        
 		return res;
     }
 	
-	private static SOAPMessage createSOAPRequest(String soapAction, String method, String[] val) throws Exception {
+	//Creates SOAP Request and get the SOAP Message
+	private SOAPMessage createSOAPRequest(String soapAction, String method, String[] val) throws Exception {
         MessageFactory messageFactory = MessageFactory.newInstance();
         SOAPMessage soapMessage = messageFactory.createMessage();
         SOAPPart soapPart = soapMessage.getSOAPPart();
         SOAPEnvelope envelope = soapPart.getEnvelope();
+        String nameSpace = "Calculator";
+        String nameSpaceURI = "http://tempuri.org/";
         
         envelope.addNamespaceDeclaration(nameSpace, nameSpaceURI);
         createSoapOperateEnvelope(soapMessage, envelope, method, val);
@@ -61,8 +74,10 @@ public class OperationsXml {
         return soapMessage;
     }
 	
-	private static void createSoapOperateEnvelope(SOAPMessage soapMessage, SOAPEnvelope envelope, String method, String[] val) throws SOAPException {
+	//Throw the operation used and the integer values to the element in the SOAP WebService and creates an SOAP Envelope
+	private void createSoapOperateEnvelope(SOAPMessage soapMessage, SOAPEnvelope envelope, String method, String[] val) throws SOAPException {
        try {
+    	   String nameSpace = "Calculator";
     	   SOAPBody soapAddBody = envelope.getBody();
            SOAPElement soapAddBodyElem = soapAddBody.addChildElement(method, nameSpace);
            SOAPElement soapAddSubElem1 = soapAddBodyElem.addChildElement("intA", nameSpace);

@@ -4,28 +4,26 @@ import javax.xml.bind.annotation.XmlElement;
 import javax.xml.bind.annotation.XmlRootElement;
 
 @SuppressWarnings("restriction")
-@XmlRootElement  
-public class AddResponse {  
-    private int AddResult;
-  
-	public AddResponse() {}  
-	
-	public AddResponse(int AddResult) {  
-	    super();  
+@XmlRootElement(name = "AddResponse", namespace = "http://tempuri.org/")
+public class AddResponse {
+	private int addResult;
 
-	    this.AddResult = AddResult;
-	} 
-	
-	
-	@XmlElement
-	public int getAddResult() {
-		return AddResult;
+	public AddResponse() {
 	}
-	
-	public void setAddResult(int AddResult) {  
-	    this.AddResult = AddResult;  
+
+	public AddResponse(int addResult) {
+		super();
+
+		this.addResult = addResult;
+	}
+
+	@XmlElement(name="AddResult")
+	public int getAddResult() {
+		return addResult;
+	}
+
+	public void setAddResult(int addResult) {
+		this.addResult = addResult;
 	}
 
 }
-
-

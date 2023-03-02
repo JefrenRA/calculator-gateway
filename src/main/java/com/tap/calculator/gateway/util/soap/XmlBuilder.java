@@ -85,7 +85,8 @@ public class XmlBuilder {
 		}
 
 	}
-
+	
+	//Converts xml result into an xml string
 	public String toXMLString() {
 		try {
 			TransformerFactory transFactory = TransformerFactory.newInstance();
