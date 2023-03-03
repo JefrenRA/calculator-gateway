@@ -1,4 +1,4 @@
-package com.tap.calculator.gateway.util.jaxb.operations;
+package com.tap.calculator.gateway.soap.response;
 
 import javax.xml.bind.annotation.XmlElement;
 import javax.xml.bind.annotation.XmlRootElement;

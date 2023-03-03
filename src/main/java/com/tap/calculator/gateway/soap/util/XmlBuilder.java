@@ -1,4 +1,4 @@
-package com.tap.calculator.gateway.util.soap;
+package com.tap.calculator.gateway.soap.util;
 
 import java.io.ByteArrayInputStream;
 import java.io.StringWriter;
